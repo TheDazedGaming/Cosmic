@@ -378,6 +378,9 @@ public final class PlayerLoggedinHandler extends AbstractPacketHandler {
 
                 player.reloadQuestExpirations();
 
+                if (player.getLevel() < 10 && player.getJob().getId() == 0) {
+                    player.dropMessage("Experience Rates have been set to 1x until you reach level 10 or get your first job advancement!");
+                }
                     /*
                     if (!c.hasVotedAlready()){
                         player.sendPacket(PacketCreator.earnTitleMessage("You can vote now! Vote and earn a vote point!"));

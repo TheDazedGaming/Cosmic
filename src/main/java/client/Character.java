@@ -3115,6 +3115,7 @@ public class Character extends AbstractCharacterObject {
         }
 
         int equip = (int) Math.min((long) (gain / 10) * pendantExp, Integer.MAX_VALUE);
+        int total = gain + equip + party;
 
         gainExpInternal(gain, equip, party, show, inChat, white);
     }
@@ -6472,6 +6473,9 @@ public class Character extends AbstractCharacterObject {
 
             ThreadManager.getInstance().newTask(r);
         }
+        if (level == 10) {
+            setWorldRates();
+        }
 
         guildUpdate();
 
@@ -6531,16 +6535,36 @@ public class Character extends AbstractCharacterObject {
 
     public void setWorldRates() {
         World worldz = getWorldServer();
-        this.expRate *= worldz.getExpRate();
-        this.mesoRate *= worldz.getMesoRate();
-        this.dropRate *= worldz.getDropRate();
+        if (getLevel() >= 10) {
+            this.expRate = worldz.getExpRate();
+            this.mesoRate = worldz.getMesoRate();
+            this.dropRate = worldz.getDropRate();
+        } else if (getJob().getId() == 200 && level == 8) {
+            this.expRate = worldz.getExpRate();
+            this.mesoRate = worldz.getMesoRate();
+            this.dropRate = worldz.getDropRate();
+        } else {
+            this.expRate = 1;
+            this.mesoRate = worldz.getMesoRate();
+            this.dropRate = worldz.getDropRate();
+        }
     }
 
     public void revertWorldRates() {
         World worldz = getWorldServer();
-        this.expRate /= worldz.getExpRate();
-        this.mesoRate /= worldz.getMesoRate();
-        this.dropRate /= worldz.getDropRate();
+        if (getLevel() >= 10) {
+            this.expRate = worldz.getExpRate();
+            this.mesoRate = worldz.getMesoRate();
+            this.dropRate = worldz.getDropRate();
+        } else if (getJob().getId() == 200 && level == 8) {
+            this.expRate = worldz.getExpRate();
+            this.mesoRate = worldz.getMesoRate();
+            this.dropRate = worldz.getDropRate();
+        } else {
+            this.expRate = 1;
+            this.mesoRate /= worldz.getMesoRate();
+            this.dropRate /= worldz.getDropRate();
+        }
     }
 
     private void setCouponRates() {

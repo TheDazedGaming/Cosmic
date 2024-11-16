@@ -380,6 +380,8 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
         getPlayer().resetStats();
     }
 
+    public void setWorldRates() { getPlayer().setWorldRates(); }
+
     public void openShopNPC(int id) {
         Shop shop = ShopFactory.getInstance().getShop(id);
 
